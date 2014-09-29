@@ -2,6 +2,8 @@
 $edit = false;
 if ($_GET['edit'] == 'true')
   $edit = true;
+
+$db = new mysqli("localhost", "cron", "1234", "asterisk");
 ?>
 <!DOCTYPE html>
 <html lang="en" ondragover="drag_over(event)" ondrop="drop(event)">
@@ -94,6 +96,7 @@ if ($_GET['edit'] == 'true')
       width: 250px;
       text-align: center;
       vertical-align: middle;
+      border: 1px solid rgba(0,0,0,0.5);
     }
     </style>
     <script>
@@ -174,11 +177,19 @@ if ($_GET['edit'] == 'true')
             $(this).children('.box-content').children('.info-bottom').children('.time').html('&nbsp;');
           }
         });
-        $.each( data["queue"], function (index,value){
-          alert(index);
-        });
-        $('#callsqueued').text(data["queue"]["global"]["number"]);
-        $('#longestwait').text(toHHMMSS(data["queue"]["global"]["wait_time"]));
+        var selval = $('#campselect').val();
+        /*$('#campselect').empty();
+        $.each( data["queue"], function (key, value){
+          if (selval = key){
+            $('#campselect').append('<option value=' + key + ' selected="selected">' + value["name"] + '</option>');
+          } else {
+            $('#campselect').append('<option value=' + key + '>' + value["name"] + '</option>');
+          }
+        });*/
+        $('#callsqueued').text(data["queue"][selval]["number"]);
+        $('#callsqueued_cell').css('background','#' + data["queue"][selval]["number_colour"]);
+        $('#longestwait').text(toHHMMSS(data["queue"][selval]["wait_time"]));
+        $('#longestwait_cell').css('background','#' + data["queue"][selval]["wait_time_colour"]);
       });
     }
 
@@ -226,20 +237,34 @@ if ($_GET['edit'] == 'true')
   <input type="button" value="Save" onclick="savePosition()" />
     <?php } ?>
   <div id="extinfo-containers" class="container padded">
+    <?php if (!$edit) { ?>
     <div id="CALLCOUNT" class="table-container" draggable="true" ondragstart="drag_start(event)" style="left: 25px; top: 0px;">
       <div class="row">
-        <div class="column" style="background: #FF0000;">
+        <div class="column" style="background: #0000FF;">
           <select id="campselect" name="camp">
-            <option value="global">All Campaigns</option>
+            <option value="global" selected>All Campaigns</option>
+            <?php
+            $sqllist = "SELECT
+                          campaign_id,
+                          campaign_name
+                        FROM
+                          vicidial_campaigns
+                        WHERE
+                          active='Y'";
+            $result = $db->query($sqllist);
+            while ($row = $result->fetch_assoc()){
+              ?><option value="<?=$row['campaign_id']?>"><?=$row['campaign_name']?></option><?php
+            }
+            ?>
           </select>
         </div>
-        <div class="column" style="background: #008000;">
+        <div id="callsqueued_cell" class="column" style="background: #32CD32;">
           <b>
             <div style="font-size: 25px;">Calls Queued</div>
             <div id="callsqueued" style="font-size: 40px;">00</div>
           </b>
         </div>
-        <div class="column" style="background: #0000FF;">
+        <div id="longestwait_cell" class="column" style="background: #32CD32;">
           <b>
             <div style="font-size: 25px;">Longest Wait</div>
             <div id="longestwait" style="font-size: 40px;">00:00:00</div>
@@ -247,6 +272,7 @@ if ($_GET['edit'] == 'true')
         </div>
       </div>
     </div>
+    <?php } ?>
     <!--<div id="SIP8001" class="box container-sipinfo" draggable="true" ondragstart="drag_start(event)" style="left: 553px; top: 349px;">
       <div class="box-header sip-border sip-header">
         <div class="close fright"><a href="#"><i class="fa fa-close"></i></a></div><div class="title">SIP&#x2F;8001</div>

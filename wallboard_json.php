@@ -155,19 +155,25 @@ $qresult = $db->query($qsql);
 
 $data['queue'] = array();
 $data['queue']['global'] = array();
+$data['queue']['name'] = "Global Queue Name";
 
 if ($qresult->num_rows > 0){
 	$qrow = $qresult->fetch_assoc();
 
 	$data['queue']['global']['number'] = $qresult->num_rows;
+	$data['queue']['global']['number_colour'] = number_colour($data['queue']['global']['number']);
 	$data['queue']['global']['wait_time'] = ( $start_time - $qrow['call_time'] );
+	$data['queue']['global']['wait_time_colour'] = wait_time_colour($data['queue']['global']['wait_time']);
 } else {
 	$data['queue']['global']['number'] = 0;
+	$data['queue']['global']['number_colour'] = '32CD32';
 	$data['queue']['global']['wait_time'] = 0;
+	$data['queue']['global']['wait_time_colour'] = '32CD32';
 }
 
 $sqllist = "SELECT
 				campaign_id,
+				campaign_name,
 				closer_campaigns
 			FROM
 				vicidial_campaigns
@@ -178,9 +184,11 @@ $listresult = $db->query($sqllist);
 
 while ($listrow = $listresult->fetch_assoc()){
 	$name = $listrow['campaign_id'];
+	$long_name = $listrow['campaign_name'];
 	$list = explode(" ", trim(str_replace("- ", "", $listrow['closer_campaigns'])));
 
 	$data['queue'][$name] = array();
+	$data['queue'][$name]['name'] = $long_name;
 
 	$qsql = "SELECT
 				status,
@@ -208,10 +216,39 @@ while ($listrow = $listresult->fetch_assoc()){
 		$qrow = $qresult->fetch_assoc();
 
 		$data['queue'][$name]['number'] = $qresult->num_rows;
+		$data['queue'][$name]['number_colour'] = number_colour($data['queue'][$name]['number']);
 		$data['queue'][$name]['wait_time'] = ( $start_time - $qrow['call_time'] );
+		$data['queue'][$name]['wait_time_colour'] = wait_time_colour($data['queue'][$name]['wait_time']);
 	} else {
 		$data['queue'][$name]['number'] = 0;
+		$data['queue'][$name]['number_colour'] = '32CD32';
 		$data['queue'][$name]['wait_time'] = 0;
+		$data['queue'][$name]['wait_time_colour'] = '32CD32';
+	}
+}
+
+
+function number_colour($number){
+	if ($number < 1){
+		return '32CD32';
+	} elseif ($number < 5){
+		return 'FF8C00';
+	} elseif ($number < 15){
+		return 'FF4500';
+	} else {
+		return 'FF0000';
+	}
+}
+
+function wait_time_colour($time){
+	if ($time < 20){
+		return '32CD32';
+	} elseif ($time < 120) {
+		return 'FF8C00';
+	} elseif ($time < 300) {
+		return 'FF4500';
+	} else {
+		return 'FF0000';
 	}
 }
 
