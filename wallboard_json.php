@@ -156,9 +156,63 @@ $qresult = $db->query($qsql);
 $data['queue'] = array();
 $data['queue']['global'] = array();
 
-$qrow = $qresult->fetch_assoc();
+if ($qresult->num_rows > 0){
+	$qrow = $qresult->fetch_assoc();
 
-$data['queue']['global']['number'] = $qresult->num_rows;
-$data['queue']['global']['wait_time'] = ( $start_time - $qrow['call_time'] );
+	$data['queue']['global']['number'] = $qresult->num_rows;
+	$data['queue']['global']['wait_time'] = ( $start_time - $qrow['call_time'] );
+} else {
+	$data['queue']['global']['number'] = 0;
+	$data['queue']['global']['wait_time'] = 0;
+}
+
+$sqllist = "SELECT
+				campaign_id,
+				closer_campaigns
+			FROM
+				vicidial_campaigns
+			WHERE
+				active='Y'";
+
+$listresult = $db->query($sqllist);
+
+while ($listrow = $listresult->fetch_assoc()){
+	$name = $listrow['campaign_id'];
+	$list = explode(" ", trim(str_replace("- ", "", $listrow['closer_campaigns'])));
+
+	$data['queue'][$name] = array();
+
+	$qsql = "SELECT
+				status,
+				campaign_id,
+				phone_number,
+				server_ip,
+				UNIX_TIMESTAMP(call_time) as call_time,
+				call_type,
+				queue_priority,
+				agent_only
+			FROM
+				vicidial_auto_calls
+			WHERE
+					status IN ('LIVE')
+				AND
+					call_type='IN'
+				AND
+					campaign_id IN ('" . implode("','", $list) . "')
+			ORDER BY
+				call_time ASC";
+	
+	$qresult = $db->query($qsql);
+
+	if ($qresult->num_rows > 0){
+		$qrow = $qresult->fetch_assoc();
+
+		$data['queue'][$name]['number'] = $qresult->num_rows;
+		$data['queue'][$name]['wait_time'] = ( $start_time - $qrow['call_time'] );
+	} else {
+		$data['queue'][$name]['number'] = 0;
+		$data['queue'][$name]['wait_time'] = 0;
+	}
+}
 
 echo json_encode($data) . "\n";

@@ -174,6 +174,9 @@ if ($_GET['edit'] == 'true')
             $(this).children('.box-content').children('.info-bottom').children('.time').html('&nbsp;');
           }
         });
+        $.each( data["queue"], function (index,value){
+          alert(index);
+        });
         $('#callsqueued').text(data["queue"]["global"]["number"]);
         $('#longestwait').text(toHHMMSS(data["queue"]["global"]["wait_time"]));
       });
@@ -226,7 +229,7 @@ if ($_GET['edit'] == 'true')
     <div id="CALLCOUNT" class="table-container" draggable="true" ondragstart="drag_start(event)" style="left: 25px; top: 0px;">
       <div class="row">
         <div class="column" style="background: #FF0000;">
-          <select name="camp">
+          <select id="campselect" name="camp">
             <option value="global">All Campaigns</option>
           </select>
         </div>
