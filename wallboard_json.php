@@ -99,7 +99,7 @@ while ($row = $result->fetch_assoc()){
 			$colour = 'e67e22';
 			break;
 		case 'DEAD':
-			$colour = '2980b9';
+			$colour = '004D86';
 			break;
 		case '3-WAY':
 			$colour = '1abc9c';
