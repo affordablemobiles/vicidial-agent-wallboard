@@ -240,7 +240,7 @@ $db = new mysqli("localhost", "cron", "1234", "asterisk");
     <?php if (!$edit) { ?>
     <div id="CALLCOUNT" class="table-container" draggable="true" ondragstart="drag_start(event)" style="left: 25px; top: 0px;">
       <div class="row">
-        <div class="column" style="background: #0000FF;">
+        <div class="column" style="background: #34495E;">
           <select id="campselect" name="camp">
             <option value="global" selected>All Campaigns</option>
             <?php
@@ -258,13 +258,13 @@ $db = new mysqli("localhost", "cron", "1234", "asterisk");
             ?>
           </select>
         </div>
-        <div id="callsqueued_cell" class="column" style="background: #32CD32;">
+        <div id="callsqueued_cell" class="column" style="background: #27ae60;">
           <b>
             <div style="font-size: 25px;">Calls Queued</div>
             <div id="callsqueued" style="font-size: 40px;">00</div>
           </b>
         </div>
-        <div id="longestwait_cell" class="column" style="background: #32CD32;">
+        <div id="longestwait_cell" class="column" style="background: #27ae60;">
           <b>
             <div style="font-size: 25px;">Longest Wait</div>
             <div id="longestwait" style="font-size: 40px;">00:00:00</div>

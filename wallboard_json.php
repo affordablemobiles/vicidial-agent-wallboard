@@ -90,28 +90,28 @@ while ($row = $result->fetch_assoc()){
 	switch($status){
 		case 'DISPO':
 		case 'QUEUE':
-			$colour = '8A2BE2';
+			$colour = '8e44ad';
 			break;
 		case 'INCALL':
-			$colour = '00BFFF';
+			$colour = '3498db';
 			break;
 		case 'PARK':
-			$colour = 'FF8C00';
+			$colour = 'd35400';
 			break;
 		case 'DEAD':
-			$colour = '00008B';
+			$colour = '2980b9';
 			break;
 		case '3-WAY':
-			$colour = 'FF1493';
+			$colour = '1abc9c';
 			break;
 		case 'RING':
-			$colour = 'FFFF00';
+			$colour = '16a085';
 			break;
 		case 'PAUSED':
-			$colour = 'FF0000';
+			$colour = 'c0392b';
 			break;
 		case 'READY':
-			$colour = '32CD32';
+			$colour = '27ae60';
 			break;
 		default:
 			$colour = 'D2BEAA';
@@ -166,9 +166,9 @@ if ($qresult->num_rows > 0){
 	$data['queue']['global']['wait_time_colour'] = wait_time_colour($data['queue']['global']['wait_time']);
 } else {
 	$data['queue']['global']['number'] = 0;
-	$data['queue']['global']['number_colour'] = '32CD32';
+	$data['queue']['global']['number_colour'] = number_colour($data['queue']['global']['number']);
 	$data['queue']['global']['wait_time'] = 0;
-	$data['queue']['global']['wait_time_colour'] = '32CD32';
+	$data['queue']['global']['wait_time_colour'] = wait_time_colour($data['queue']['global']['wait_time']);
 }
 
 $sqllist = "SELECT
@@ -221,34 +221,34 @@ while ($listrow = $listresult->fetch_assoc()){
 		$data['queue'][$name]['wait_time_colour'] = wait_time_colour($data['queue'][$name]['wait_time']);
 	} else {
 		$data['queue'][$name]['number'] = 0;
-		$data['queue'][$name]['number_colour'] = '32CD32';
+		$data['queue'][$name]['number_colour'] = number_colour($data['queue'][$name]['number']);
 		$data['queue'][$name]['wait_time'] = 0;
-		$data['queue'][$name]['wait_time_colour'] = '32CD32';
+		$data['queue'][$name]['wait_time_colour'] = wait_time_colour($data['queue'][$name]['wait_time']);
 	}
 }
 
 
 function number_colour($number){
 	if ($number < 1){
-		return '32CD32';
+		return '27ae60';
 	} elseif ($number < 5){
-		return 'FF8C00';
+		return 'd35400';
 	} elseif ($number < 15){
-		return 'FF4500';
+		return 'e74c3c';
 	} else {
-		return 'FF0000';
+		return 'c0392b';
 	}
 }
 
 function wait_time_colour($time){
 	if ($time < 20){
-		return '32CD32';
+		return '27ae60';
 	} elseif ($time < 120) {
-		return 'FF8C00';
+		return 'd35400';
 	} elseif ($time < 300) {
-		return 'FF4500';
+		return 'e74c3c';
 	} else {
-		return 'FF0000';
+		return 'c0392b';
 	}
 }
 
