@@ -96,7 +96,7 @@ while ($row = $result->fetch_assoc()){
 			$colour = '3498db';
 			break;
 		case 'PARK':
-			$colour = 'd35400';
+			$colour = 'e67e22';
 			break;
 		case 'DEAD':
 			$colour = '2980b9';
