@@ -232,7 +232,7 @@ function number_colour($number){
 	if ($number < 1){
 		return '27ae60';
 	} elseif ($number < 5){
-		return 'd35400';
+		return 'e67e22';
 	} elseif ($number < 15){
 		return 'e74c3c';
 	} else {
@@ -244,7 +244,7 @@ function wait_time_colour($time){
 	if ($time < 20){
 		return '27ae60';
 	} elseif ($time < 120) {
-		return 'd35400';
+		return 'e67e22';
 	} elseif ($time < 300) {
 		return 'e74c3c';
 	} else {
