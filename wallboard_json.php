@@ -100,6 +100,7 @@ while ($row = $result->fetch_assoc()){
 			break;
 		case 'DEAD':
 			$colour = '004D86';
+			$status = 'GONE';
 			break;
 		case '3-WAY':
 			$colour = '1abc9c';
