@@ -89,8 +89,10 @@ while ($row = $result->fetch_assoc()){
 
 	switch($status){
 		case 'DISPO':
-		case 'QUEUE':
 			$colour = '8e44ad';
+			break;
+		case 'QUEUE':
+			$colour = '9b59b6';
 			break;
 		case 'INCALL':
 			$colour = '3498db';
