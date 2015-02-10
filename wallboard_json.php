@@ -113,6 +113,8 @@ while ($row = $result->fetch_assoc()){
 		case 'PAUSED':
 			$colour = 'c0392b';
 			break;
+        case 'CLOSER':
+            $status = 'READY (C)';
 		case 'READY':
 			$colour = '27ae60';
 			break;
