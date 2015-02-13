@@ -11,3 +11,5 @@ Return to wallboard.php and the status of the agents and call queues will update
 ![screenshot of live agents](https://raw.github.com/infitialis/vicidial-agent-wallboard/master/support/screenshots/screenshot-1.png)
 
 ![screenshot of live agents 2](https://raw.github.com/infitialis/vicidial-agent-wallboard/master/support/screenshots/screenshot-2.png)
+
+![screenshot of live agents 3](https://raw.github.com/infitialis/vicidial-agent-wallboard/master/support/screenshots/screenshot-3.png)
